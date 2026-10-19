@@ -6,6 +6,8 @@
 #include "GameFramework/Character.h"
 #include "VRCharacter.generated.h"
 
+class UCameraComponent;
+
 UCLASS()
 class AVRCharacter : public ACharacter
 {
@@ -18,6 +20,12 @@ public:
 protected:
 	
 	virtual void BeginPlay() override;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UCameraComponent> Camera;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<USceneComponent> Origin;
 
 public:	
 	

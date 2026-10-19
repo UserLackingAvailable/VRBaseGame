@@ -2,13 +2,20 @@
 
 
 #include "Characters/VRCharacter.h"
-
+#include "Camera/CameraComponent.h"
 
 AVRCharacter::AVRCharacter()
 {
  	
 	PrimaryActorTick.bCanEverTick = false;
 
+	Origin = CreateDefaultSubobject<USceneComponent>("Origin");
+	Origin->SetupAttachment(GetMesh());
+	
+	
+	Camera = CreateDefaultSubobject<UCameraComponent>("Camera");
+	Camera->SetupAttachment(Origin);
+	
 }
 
 
@@ -21,6 +28,5 @@ void AVRCharacter::BeginPlay()
 void AVRCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
 }
 
