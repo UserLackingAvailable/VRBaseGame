@@ -20,13 +20,6 @@ class BASIC_VR_API AVRhand : public AActor
 public:	
 	AVRhand();
 
-protected:
-	virtual void OnConstruction(const FTransform& Transform) override;
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	
-	//TObjectPtr same as * but handles objects better since UE made specifically for that for better optimization  (custom unreal pointer)
-	
 	//COMPONENTS//
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component")
 	TObjectPtr<UMotionControllerComponent> MotionController;
@@ -40,12 +33,40 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component|Hands")
 	TObjectPtr<USphereComponent> GrabSphere;
 	
-	//HAND DATA//
+	UFUNCTION(BlueprintCallable, Category = "Grab")
+	class UVRGrabComponent* GetNearestGrabComponent();
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Grab")
+	TObjectPtr<class UVRGrabComponent> HeldComponent;
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component|Hands|HandData")
 	EControllerHand HandType;  //native enum which already takes small amount of memory so ptr isnt needed
 	
+	UFUNCTION(BlueprintCallable, Category = "Grab")
+	FVector GetHandVelocity() const { return HandVelocity;}
+	
+protected:
+	virtual void OnConstruction(const FTransform& Transform) override;
+	virtual void BeginPlay() override;
+	virtual void Tick(float DeltaTime) override;
+	
+	/*void HandleGrabPressed();
+	void TryGrab();
+	*/
+	
+	
+	
+	//TObjectPtr same as * but handles objects better since UE made specifically for that for better optimization  (custom unreal pointer)
+	
+	//HAND DATA//
+	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Component|Hands|HandData")
 	bool bMirrorAnimation;
-private:
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Grab Settings")
+	float GrabRadius = 25.0f;
 
+private:
+	FVector HandVelocity;
+	FVector LastHandLocation;
 };

@@ -16,19 +16,17 @@ class AVRCharacter : public ACharacter
 public:
 	
 	AVRCharacter();
+	
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	
+	void ServerSideInit();
+	void ClientSideInit();
+	bool IsLocallyControlledByPlayer() const;
+	
+	virtual void PossessedBy(AController* NewController) override;
 
 protected:
 	
 	virtual void BeginPlay() override;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<UCameraComponent> Camera;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
-	TObjectPtr<USceneComponent> Origin;
-
-public:	
-	
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 };
